@@ -24,9 +24,53 @@ public class FiboC {
     long fasterC(long n, int m) {
         //Интуитивно найти решение не всегда просто и
         //возможно потребуется дополнительный поиск информации
-        return -1L;
+
+        if (n <= 1) {
+            return n;
+        }
+
+        long pisanoPeriod = getPisanoPeriod(m);
+
+        n = n % pisanoPeriod;
+
+        return getFibonacciModulo(n, m);
     }
 
+    private long getPisanoPeriod(int m) {
+        long prev = 0;
+        long curr = 1;
+        long period = 0;
+
+        do {
+            long temp = curr;
+
+            curr = (prev + curr) % m;
+            prev = temp;
+
+            period++;
+
+        } while (prev != 0 || curr != 1);
+
+        return period;
+    }
+
+    private long getFibonacciModulo(long n, int m) {
+        if (n == 0) {
+            return 0;
+        }
+
+        long prev = 0;
+        long curr = 1;
+
+        for (long i = 2; i <= n; i++) {
+            long temp = curr;
+
+            curr = (prev + curr) % m;
+            prev = temp;
+        }
+
+        return curr % m;
+    }
 
 }
 
